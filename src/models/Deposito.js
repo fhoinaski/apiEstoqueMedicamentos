@@ -5,6 +5,11 @@ const User = require("./User");
 const Deposito = connect.define(
   "depositos",
   {
+    depositoId: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -12,11 +17,6 @@ const Deposito = connect.define(
         model: User,
         key: 'userId',
       },
-    },
-    depositoId: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
     },
     razaoSocial: {
       type: DataTypes.STRING,
