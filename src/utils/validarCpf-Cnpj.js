@@ -23,7 +23,7 @@ function validarCNPJ(cnpjNumero) {
   const cnpjNumberLength = cnpjNumero.length;
 
   if (cnpjNumberLength !== 14) {
-    throw new Error('Número de CNPJ deve ter 14 dígitos');
+    return ('Número de CNPJ deve ter 14 dígitos');
   }
 
   return cnpj.isValid(cnpjNumero);
