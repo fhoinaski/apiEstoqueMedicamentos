@@ -237,7 +237,6 @@ class UserController {
           userId,
         },
       });
-
       res.status(200).json({
         code: "OK",
         msg: "Dados atualizados com sucesso!",
