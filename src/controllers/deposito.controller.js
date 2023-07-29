@@ -150,13 +150,13 @@ class DepositoController {
       ];
 
       if (!envioObrigatorio.every((field) => req.body[field])) {
-        const missingFields = envioObrigatorio.filter(
+        const campoFaltante = envioObrigatorio.filter(
           (field) => !req.body[field]
         );
         return res.status(400).json({
           code: "NOK",
           error: "Dados inválidos",
-          msg: `Campos obrigatórios não informados: ${missingFields.join(
+          msg: `Campos obrigatórios não informados: ${campoFaltante.join(
             ", "
           )}`,
         });
@@ -228,12 +228,15 @@ class DepositoController {
         longitude,
       });
 
-      const depositoSucesso = [deposito.depositoId, deposito.razaoSocial];
-
+      const depositoSucesso = {
+        identificador: deposito.depositoId,
+        razaoSocial: deposito.razaoSocial,
+      }
+        
       res.status(201).json({
         code: "OK",
         msg: "Depósito criado com sucesso",
-        depositoSucesso,
+        deposito: depositoSucesso,
       });
     } catch (error) {
       console.error("Erro ao criar depósito:", error);

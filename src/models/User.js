@@ -95,4 +95,5 @@ User.associate = () => {
 };
 
 
+
 module.exports = User;

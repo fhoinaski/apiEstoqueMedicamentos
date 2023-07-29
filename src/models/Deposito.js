@@ -1,15 +1,12 @@
 const { DataTypes } = require("sequelize");
 const { connect } = require("../database/connect");
 const User = require("./User");
+const MedicamentoDeposito = require("./MedicamentoDeposito");
+const Medicamento = require("./Medicamento");
 
 const Deposito = connect.define(
   "depositos",
   {
-    depositoId: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -17,6 +14,11 @@ const Deposito = connect.define(
         model: User,
         key: 'userId',
       },
+    },
+    depositoId: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
     },
     razaoSocial: {
       type: DataTypes.STRING,
@@ -128,11 +130,19 @@ const Deposito = connect.define(
     underscored: true,
   }
 );
-Deposito.associate = () => {
-  Deposito.belongsTo(User, {
-    foreignKey: "userId",
-    as: "user",
+
+Deposito.associate = () => { 
+  Deposito.belongsToMany(Medicamento, { 
+    through: MedicamentoDeposito,
+    foreignKey: "deposito_id",
+    otherKey: "medicamento_id",
+    as: "medicamentos",
+  });
+  User.hasMany(Deposito, {
+    foreignKey: "user_id",
+    as: "depositos",
   });
 };
+
 
 module.exports = Deposito;
