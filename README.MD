@@ -122,7 +122,7 @@ Instale as dependências
 Inicie o servidor
 
 ```bash
-  npm run dev
+  npm start
 ```
 Acesse a api em :
 ```bash
