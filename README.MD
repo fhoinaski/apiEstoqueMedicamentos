@@ -92,7 +92,7 @@ Para baixar o GIT use o link:
 - [Baixar o GIT AQUI](https://git-scm.com/downloads)
 
 ---
-- Apos todos os programas necessarios já instalados em seu máquina crie uma pasta que ira ficar o sistema.
+- Após todos os programas necessários já instalados em sua máquina crie uma pasta que irá ficar o sistema.
 - Acesse a pasta com gitbash ou cmd 
 --- 
 
