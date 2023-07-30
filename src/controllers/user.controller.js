@@ -3,6 +3,8 @@ const moment = require("moment");
 const { isDateFormat } = require("../utils/dateFormat");
 const { validarCPF } = require("../utils/validarCpf-Cnpj");
 const { sign } = require("jsonwebtoken");
+const validarSenha = require("../utils/validarSenha");
+
 
 
 class UserController {
@@ -60,6 +62,15 @@ class UserController {
           msg: "Informe uma data diferente da data atual",
         });
       }
+      
+      if (!validarSenha(senha)) {
+        return res.status(400).json({
+          code: "NOK",
+          error: "Senha inválida",
+          msg: "A senha deve ter no mínimo 8 caracteres, pelo menos 1 letra maiúscula e 1 número",
+        });
+      }
+
 
       const isEmail = email.includes("@");
       if (!isEmail) {
@@ -86,20 +97,33 @@ class UserController {
         });
       }
 
-      await User.create({
-        nome,
-        sobrenome,
-        genero,
-        dataAniversario,
-        cpf,
-        telefone,
-        email,
-        senha,
-      });
+    const userCadastrado =  await User.create({
+      nome,
+      sobrenome,
+      genero,
+      dataAniversario,
+      cpf,
+      telefone,
+      email,
+      senha,
+    });
+
+    const newUser = {
+      identificador: userCadastrado.userId,
+      nome: userCadastrado.nome,
+      sobrenome: userCadastrado.sobrenome,
+      genero: userCadastrado.genero,
+      dataAniversario: userCadastrado.dataAniversario,
+      cpf: userCadastrado.cpf,
+      telefone: userCadastrado.telefone,
+      email: userCadastrado.email,
+      status: userCadastrado.status,
+    };
 
       res.status(201).json({
         code: "OK",
         msg: "Usuário criado com sucesso",
+        usuario: newUser,
       });
     } catch (error) {
       console.error("Erro ao criar usuário:", error);
@@ -132,7 +156,7 @@ class UserController {
         });
       }
       const token = sign({ id: user.userId }, process.env.JWT_SECRET, {
-        expiresIn: "2h",
+        expiresIn: "24h",
       });
 
       res.status(200).json({
@@ -292,10 +316,7 @@ class UserController {
         }
       );
 
-      res.status(200).json({
-        code: "OK",
-        msg: "Senha atualizada com sucesso!",
-      });
+      res.status(204).json();
     } catch (error) {
       console.error("Erro ao atualizar senha:", error);
       res.status(500).json({ error: "Erro ao atualizar senha" });
@@ -324,7 +345,7 @@ class UserController {
       }
       const dateBird = JSON.stringify(usuarioData.dataAniversario);
       const usuarioFiltrado = {
-        userId: usuarioData.userId,
+        identificado: usuarioData.userId,
         nome: usuarioData.nome,
         sobrenome: usuarioData.sobrenome,
         genero: usuarioData.genero,
@@ -337,7 +358,7 @@ class UserController {
 
       res.status(200).json({
         code: "OK",
-        dados: usuarioFiltrado,
+        usuario: usuarioFiltrado,
       });
     } catch (error) {
       console.error("Erro ao buscar dados do usuário:", error);
