@@ -203,7 +203,11 @@ Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de
   
 }
 ```
+---
 
+## Screenshots
+
+![App Screenshot](https://raw.githubusercontent.com/fhok/modulo2fulstack/main/screenshot/screen.png)
 ---
 
 | Parâmetro   | Tipo       | Descrição                           |
@@ -251,7 +255,11 @@ Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0Ijox"
 }
 ```
+---
 
+## Screenshots
+
+![App Screenshot](https://raw.githubusercontent.com/fhok/modulo2fulstack/main/screenshot/login.png)
 ---
 
 | Parâmetro   | Tipo       | Descrição                           |
@@ -264,6 +272,11 @@ Para rodar esse projeto, você vai precisar adicionar as seguintes variáveis de
 ## **Atualizar dados usúario**
 
 - __Autenticação requerida__ :  Bearer {token}
+---
+
+## Screenshots
+
+![App Screenshot](https://raw.githubusercontent.com/fhok/modulo2fulstack/main/screenshot/autoriza%C3%A7%C3%A3o.png)
 - __Método___:PATCH
 
 
@@ -486,6 +499,11 @@ Vazio
     }
 }
 ```
+---
+
+## Screenshots
+
+![App Screenshot](https://raw.githubusercontent.com/fhok/modulo2fulstack/main/screenshot/cadastroDeposito.png)
 
 ---
 
@@ -807,7 +825,11 @@ vazio
     }
 }
 ```
+---
 
+## Screenshots
+
+![App Screenshot](https://raw.githubusercontent.com/fhok/modulo2fulstack/main/screenshot/criarMedicamento.png)
 ---
 
 | Parâmetro   | Tipo       | Descrição                           |
