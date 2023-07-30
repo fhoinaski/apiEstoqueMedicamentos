@@ -1,4 +1,5 @@
 const Deposito = require("../models/Deposito");
+const MedicamentoDeposito = require("../models/MedicamentoDeposito");
 const User = require("../models/User");
 const { checkUserDeposito } = require("../services/checkDeposito");
 const {
@@ -362,11 +363,13 @@ class DepositoController {
         const depositoId = Number(req.params.id);
         const checkDeposito = await checkUserDeposito(depositoId);
         const { status } = req.body;
-        if (!status) {
+     
+
+        if(status !== "Ativo" && status !== "Inativo") {
             return res.status(400).json({
                 code: "NOK",
-                error: "Dados inválidos",
-                msg: "Satus permitido apenas para 'Ativo' ou 'Inativo'",
+                error: "Valor inválido para o campo 'status'",
+                msg: "Valores permitidos: 'Ativo' ou 'Inativo'",
             });
         }
         try {
@@ -395,42 +398,56 @@ class DepositoController {
     }
 
     async deleteDeposito(req, res) {
-        const userId = req.userId;
-        const depositoId = Number(req.params.id);
-        const checkDeposito = await checkUserDeposito(depositoId);
-        try {
-
-            if(checkDeposito.status==="Ativo") {
-                return res.status(400).json({
-                    code: "NOK",
-                    error: "Depósito Ativo",
-                    msg: "Não é possível excluir um depósito Ativo",
-                });
-            }
-
-            if (!checkDeposito) {
-                return res.status(404).json({
-                    code: "NOK",
-                    error: "Depósito não encontrado",
-                });
-            }
-            if (userId !== checkDeposito.userId) {
-                return res.status(401).json({
-                    code: "NOK",
-                    error: "Não autorizado",
-                });
-            }
-            await Deposito.destroy({
-                where: {
-                    depositoId,
-                },
-            });
-            res.status(204).json({});
-        } catch (error) {
-            console.error("Erro ao deletar depósito:", error);
-            res.status(500).json({ error: "Erro ao deletar depósito" });
-        }
-    }
+      const userId = req.userId;
+      const depositoId = Number(req.params.id);
+      
+      try {
+          // Verifica se o depósito existe e se pertence ao usuário correto
+          const checkDeposito = await checkUserDeposito(depositoId);
+  
+          if (!checkDeposito) {
+              return res.status(404).json({
+                  code: "NOK",
+                  error: "Depósito não encontrado",
+              });
+          }
+          
+          if (userId !== checkDeposito.userId) {
+              return res.status(401).json({
+                  code: "NOK",
+                  error: "Não autorizado",
+              });
+          }
+  
+          // Verifica se existem medicamentos associados ao depósito
+          const temMedicamentos = await MedicamentoDeposito.findOne({
+              where: {
+                  depositoId,
+              },
+          });
+  
+          if (temMedicamentos) {
+              return res.status(400).json({
+                  code: "NOK",
+                  error: "Depósito possui medicamentos associados",
+                  msg: "Não é possível excluir um depósito que possui medicamentos associados",
+              });
+          }
+  
+          // Se não houver medicamentos associados, pode excluir o depósito
+          await Deposito.destroy({
+              where: {
+                  depositoId,
+              },
+          });
+  
+          res.status(204).json({});
+      } catch (error) {
+          console.error("Erro ao deletar depósito:", error);
+          res.status(500).json({ error: "Erro ao deletar depósito" });
+      }
+  }
+  
 
 }
 
