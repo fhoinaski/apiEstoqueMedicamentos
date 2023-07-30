@@ -388,11 +388,11 @@ https://modulo2.cyclic.app/api/usuarios/:id/status
 
 **Para acesso local**
 ```http
-/api/usuarios/senha
+/api/usuarios/:id/senha
 ```
 **Para acesso em produção**
 ```http
-https://modulo2.cyclic.app/api/usuarios/senha
+https://modulo2.cyclic.app/api/usuarios/:id/senha
 ```
 ---
 
