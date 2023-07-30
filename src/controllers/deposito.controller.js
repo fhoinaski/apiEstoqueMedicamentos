@@ -318,6 +318,7 @@ class DepositoController {
         return res.status(401).json({
           code: "NOK",
           error: "Não autorizado",
+          msg: "Não é possível atualizar um depósito de outro usuário",
         });
       }
 
@@ -384,7 +385,6 @@ class DepositoController {
                     code: "NOK",
                     error: "Não autorizado",
                     msg: "Não é possível alterar o status de um depósito de outro usuário",
-                    
                 });
             }
             await Deposito.update({ status }, {
@@ -418,6 +418,7 @@ class DepositoController {
               return res.status(401).json({
                   code: "NOK",
                   error: "Não autorizado",
+                  msg: "Não é possível excluir um depósito de outro usuário",
               });
           }
   
