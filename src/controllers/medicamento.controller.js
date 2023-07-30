@@ -138,7 +138,7 @@ class MedicamentoController {
       if (!["mg", "mcg", "ml", "g", "%", "outro"].includes(unidadeDosagem)) {
         return res.status(400).json({
           code: "NOK",
-          error: "unidadeDosagem deve ser mg, mcg, ml, g, % ou outro",
+          error: "unidadeDosagem deve ser: mg, mcg, ml, g, % ou outro",
         });
       }
 
